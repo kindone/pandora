@@ -12,6 +12,7 @@ resolvers ++= Seq(
   "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
 )
 
+
 libraryDependencies ++= Seq(
 	"com.typesafe.akka" % "akka-actor" % "2.0.1",
   "com.chuusai" %% "shapeless" % "1.2.2"
