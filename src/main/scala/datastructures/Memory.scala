@@ -23,9 +23,9 @@ class Memory(val size: Int, var sp: Int = 0) {
 		get(sp - 1)
 	}
 
-	def get(pos: Int) = array(scala.math.abs(pos) % size)
+	def get(pos: Int) = {  array(scala.math.abs(if(pos == Int.MinValue) pos + 1 else pos) % size) }
 
-	def set(pos: Int, value: Double) = array(scala.math.abs(pos) % size) = value
+	def set(pos: Int, value: Double) = array(scala.math.abs(if(pos == Int.MinValue) pos + 1 else pos) % size) = value
 
 	def length = size
 

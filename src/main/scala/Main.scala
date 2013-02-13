@@ -14,7 +14,7 @@ import population.StackMachine
 object Main {
 
 	def main(args: Array[String]) {
-		// start DefaultSimulator act()   
+		// start DefaultSimulator act()
 		val system = ActorSystem("pandora")
 		val simulation = system.actorOf(Props(new DefaultSimulation()), name = "simulation")
 		
