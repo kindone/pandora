@@ -9,9 +9,9 @@ import datastructures.Memory
 sealed trait Machine
 
 object StackMachine {	
-	val memSize = 10000
+	val memSize = 100
 	
-	val operators = Array[(StackMachine) => Double](_.add, _.subtract, _.multiply, _.divide, _.modular,
+	val operators = Array[(StackMachine) => () => Double](_.add, _.subtract, _.multiply, _.divide, _.modular,
 		_.or, _.and, _.not, _.xor, 
 		_.shiftl, _.shiftr,
 		_.toInt, _.toBoolean, 
@@ -25,25 +25,35 @@ object StackMachine {
 class StackMachine extends Machine with Individual {
 
 	val memory: Memory = new Memory(StackMachine.memSize)
-
+	// stack pointer
+	var sp = 0
 	// program counter
-	var pc: Int = 0
+	var pc = 0
 
-	for (i <- 0 until StackMachine.memSize) memory.push(math.random)
-
-	def work(): Double = {
-		StackMachine.operators((scala.math.abs(memory.pop()) % StackMachine.operators.length).toInt)(this);
-		val value = memory.peek()
-		println(value)
+	def push(value: Double): Double = {
+		memory.set(sp, value)
+		sp += 1
 		value
 	}
 
-	def peek(): Double = memory.peek()
+	def pop(): Double = {
+		sp -= 1
+		val value = memory.get(sp)
+		value
+	}
 
-	def push(value: Double) = memory.push(value)
+	def peek(): Double = {
+		memory.get(sp - 1)
+	}
 
-	def pop(): Double = memory.pop()
-	
+	// initialize memory
+	for (i <- 0 until StackMachine.memSize) push(1)
+
+	def work(): Double = {
+		StackMachine.operators((scala.math.abs(if(pc == Int.MinValue) pc + 1 else pc) % StackMachine.operators.length).toInt)(this)();
+		pc += 1
+	}
+
 	def add(): Double = binaryOperation((x, y) => x + y)
 
 	def subtract(): Double = binaryOperation((x, y) => x - y)
@@ -91,16 +101,16 @@ class StackMachine extends Machine with Individual {
 	def isNonZero(): Double = unaryOperation((x) => { if(x == 0) 1 else 0 })
 	
 	def jumpRelative(): Double = {
-		val op = if(memory.length > 0) memory.pop else 0.0 
+		val op = pop
 		
-		memory.sp += op.toInt
+		pc += op.toInt
 		op // N/A
 	} 
 	
 	def jumpAbsolute(): Double = {
-		val op = if(memory.length > 0) memory.pop else 0.0 
+		val op = if(memory.length > 0) pop else 0.0 
 			
-		memory.sp = op.toInt
+		pc = op.toInt
 		op // N/A
 	} 
 	
@@ -119,15 +129,15 @@ class StackMachine extends Machine with Individual {
 	}
 	
 	def load(): Double = {
-		val op = if(memory.length > 0) memory.pop else 0.0 
-			
-		memory.push(memory.get(op.toInt))
+		val op = pop
+		println(op.toInt)
+		push(memory.get(op.toInt))
 	}
 	
 	def store(): Double = {
 		// address
-		val op = if(memory.length > 0) memory.pop else 0.0 
-		val op2 = if(memory.length > 0) memory.pop else 0.0 
+		val op = pop
+		val op2 = pop
 
 		memory.set(op.toInt, op2)
 		op2
@@ -141,28 +151,28 @@ class StackMachine extends Machine with Individual {
 	
 
 	private def unaryOperation(operator: (Double) => Double): Double = {
-		val op = if(memory.length > 0) memory.pop else 0.0 
+		val op = pop
 
 		val result = operator(op)
-		memory.push(result)		
+		push(result)		
 	}
 
 	private def binaryOperation(operator: (Double, Double) => Double): Double = {
-		val op1 = if(memory.length > 0) memory.pop else 0.0 
-		val op2 = if(memory.length > 0) memory.pop else 0.0 
+		val op1 = pop
+		val op2 = pop
 
 		val result = operator(op1, op2)		
 		if(result.isNaN)  {			
-			memory.push(0)			
+			push(0)			
 		}
 		else if(result.isPosInfinity)  {
-			memory.push(1)			
+			push(1)			
 		}
 		else if(result.isNegInfinity)  {
-			memory.push(-1)			
+			push(-1)			
 		}
 		else {
-			memory.push(result)			
+			push(result)
 		}
 	}
 }
