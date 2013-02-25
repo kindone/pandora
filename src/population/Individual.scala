@@ -16,3 +16,10 @@ trait Individual extends Actor {
 			sender ! -1
 	}
 }
+
+class RandomIndividual extends Individual with StackMachine {
+}
+
+class Replicator extends Individual with StackMachine {
+
+}

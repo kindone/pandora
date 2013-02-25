@@ -22,7 +22,7 @@ object StackMachine {
 	
 }
 
-class StackMachine extends Machine with Individual {
+trait StackMachine extends Machine { self:Individual => 
 
 	val memory: Memory = new Memory(StackMachine.memSize)
 	// stack pointer
@@ -50,8 +50,9 @@ class StackMachine extends Machine with Individual {
 	for (i <- 0 until StackMachine.memSize) push(1)
 
 	def work(): Double = {
-		StackMachine.operators((scala.math.abs(if(pc == Int.MinValue) pc + 1 else pc) % StackMachine.operators.length).toInt)(this)();
+		val result = StackMachine.operators((scala.math.abs(if(pc == Int.MinValue) pc + 1 else pc) % StackMachine.operators.length).toInt)(this)();
 		pc += 1
+		result
 	}
 
 	def add(): Double = binaryOperation((x, y) => x + y)

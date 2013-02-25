@@ -2,9 +2,8 @@ package simulation
 
 import population.StackMachine
 import akka.actor._
-import population.Machine
 import messages._
-import population.Individual
+import population._
 import akka.routing.RoundRobinRouter
 
 /**
@@ -24,7 +23,7 @@ class DefaultSimulation extends Actor {
 	//	val population = Array.fill(DefaultSimulation.numIndividuals)(new StackMachine)
 
 	val individualRouter = context.actorOf(
-		Props[StackMachine].withRouter(RoundRobinRouter(nrOfInstances=DefaultSimulation.numIndividuals)),
+		Props[RandomIndividual].withRouter(RoundRobinRouter(nrOfInstances=DefaultSimulation.numIndividuals)),
 		name = "workerRouter")
 
 	var i = 0
