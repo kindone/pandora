@@ -20,5 +20,8 @@ libraryDependencies ++= Seq(
   "com.chuusai" %% "shapeless" % "1.2.2",
   "net.fwbrasil" %% "activate-core" % "1.1",
   "net.fwbrasil" %% "activate-jdbc" % "1.1",
-  "net.fwbrasil" %% "activate-play" % "1.1"
+  "net.fwbrasil" %% "activate-play" % "1.1",
+	"org.scalatest" %% "scalatest" % "1.9.1" % "test"
 )
+
+scalaSource in Test <<= baseDirectory(_ /"test")
