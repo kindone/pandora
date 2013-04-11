@@ -24,4 +24,5 @@ libraryDependencies ++= Seq(
 )
 
 scalaSource in Test <<= baseDirectory(_ /"test")
+
 scalaSource in Compile <<= baseDirectory(_ /"src")
