@@ -49,10 +49,11 @@ trait StackMachine extends Machine { self:WorkerActor =>
 	// initialize memory
 	for (i <- 0 until StackMachine.memSize) push(1)
 
-	def work(): Double = {
-		val result = StackMachine.operators((scala.math.abs(if(pc == Int.MinValue) pc + 1 else pc) % StackMachine.operators.length).toInt)(this)();
+	def work(): Boolean = {
+        val operation = StackMachine.operators((scala.math.abs(if(pc == Int.MinValue) pc + 1 else pc) % StackMachine.operators.length).toInt)
+		val result = operation(this)();
 		pc += 1
-		result
+		operation(this) != sleep _
 	}
 
 	def add(): Double = binaryOperation((x, y) => x + y)
@@ -145,7 +146,8 @@ trait StackMachine extends Machine { self:WorkerActor =>
 	}
 	
 	def sleep(): Double = {
-  }
+        0.0
+    }
 	
 	
 
