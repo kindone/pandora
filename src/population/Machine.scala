@@ -1,6 +1,6 @@
 package population
 import scala.math._
-import datastructures.Memory
+import datastructures.{ FixedSizeMemory => Memory}
 
 /**
  * Created by kindone 11. 11. 26 오후 9:57
@@ -22,7 +22,7 @@ object StackMachine {
 	
 }
 
-trait StackMachine extends Machine { self:Individual => 
+trait StackMachine extends Machine { self:WorkerActor => 
 
 	val memory: Memory = new Memory(StackMachine.memSize)
 	// stack pointer
@@ -145,9 +145,7 @@ trait StackMachine extends Machine { self:Individual =>
 	}
 	
 	def sleep(): Double = {
-		Thread.sleep(100)
-		0.0
-	}
+  }
 	
 	
 

@@ -3,7 +3,7 @@ import akka.actor.Actor
 import akka.actor.actorRef2Scala
 import messages._
 
-trait Individual extends Actor {
+trait WorkerActor extends Actor {
 	def work(): Double
 
 	def receive = {
@@ -11,15 +11,12 @@ trait Individual extends Actor {
 			work()
 			sender ! WorkDone
 
-		case _ =>
+		case WorkDone =>
+      // unused
+    case _ =>
 			println("some undefined message")
 			sender ! -1
 	}
 }
 
-class RandomIndividual extends Individual with StackMachine {
-}
 
-class Replicator extends Individual with StackMachine {
-
-}
