@@ -11,7 +11,9 @@ trait WorkerActor extends Actor {
 
 	def receive = {
 		case Work =>
-			if(work)
+      work()
+      
+			if(work())
     			sender ! WorkDone
             else  {
                 val savedSender = sender
@@ -26,4 +28,9 @@ trait WorkerActor extends Actor {
 	}
 }
 
+class RandomIndividual extends WorkerActor with StackMachine {
+}
 
+class Replicator extends WorkerActor with StackMachine {
+
+}
