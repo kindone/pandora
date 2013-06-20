@@ -9,7 +9,7 @@ import datastructures.{ FixedSizeMemory => Memory}
 sealed trait Machine
 
 object StackMachine {	
-	val memSize = 100
+	val memSize = 65536
 	
 	val operators = Array[(StackMachine) => () => Double](_.add, _.subtract, _.multiply, _.divide, _.modular,
 		_.or, _.and, _.not, _.xor, 
@@ -47,8 +47,6 @@ trait StackMachine extends Machine { self:WorkerActor =>
 		memory.get(sp - 1)
 	}
 
-	// initialize memory
-	for (i <- 0 until StackMachine.memSize) push(scala.util.Random.nextInt(operators.size*5).toDouble)
 
 	def work(): Boolean = {
         val operation = StackMachine.operators((scala.math.abs(if(pc == Int.MinValue) pc + 1 else pc) % StackMachine.operators.length).toInt)

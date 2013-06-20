@@ -15,7 +15,7 @@ import akka.routing.RoundRobinRouter
  */
 
 object DefaultSimulation {
-	val numIndividuals = 1
+	val numIndividuals = 100
 }
 
 class DefaultSimulation extends Actor {

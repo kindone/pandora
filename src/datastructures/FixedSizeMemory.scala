@@ -13,4 +13,8 @@ class FixedSizeMemory(val size: Int) {
 
 	def length = size
 
+
+  def <<(values:List[Double]) = {
+  }
+
 }

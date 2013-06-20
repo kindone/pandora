@@ -29,8 +29,10 @@ trait WorkerActor extends Actor {
 }
 
 class RandomIndividual extends WorkerActor with StackMachine {
+	// initialize memory
+	for (i <- 0 until StackMachine.memSize) push(scala.util.Random.nextInt(operators.size*5).toDouble)
+
 }
 
 class Replicator extends WorkerActor with StackMachine {
-
 }
