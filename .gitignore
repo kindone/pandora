@@ -16,3 +16,5 @@ project/plugins/project/
 # elipse specific
 .settings
 .classpath
+.project
+/bin

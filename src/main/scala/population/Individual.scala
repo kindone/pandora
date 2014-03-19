@@ -30,7 +30,7 @@ trait WorkerActor extends Actor {
 
 class RandomIndividual extends WorkerActor with StackMachine {
 	// initialize memory
-	for (i <- 0 until StackMachine.memSize) push(scala.util.Random.nextInt(operators.size * 5).toDouble)
+	for (i <- 0 until StackMachine.memSize) push(scala.util.Random.nextInt(StackMachine.operators.size * 5).toDouble)
 
 }
 
