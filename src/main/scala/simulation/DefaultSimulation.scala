@@ -23,14 +23,14 @@ class DefaultSimulation extends Actor {
 	//	val population = Array.fill(DefaultSimulation.numIndividuals)(new StackMachine)
 
 	val individualRouter = context.actorOf(
-		Props[RandomIndividual].withRouter(RoundRobinRouter(nrOfInstances=DefaultSimulation.numIndividuals)),
+		Props[RandomIndividual].withRouter(RoundRobinRouter(nrOfInstances = DefaultSimulation.numIndividuals)),
 		name = "workerRouter")
 
 	var i = 0
 
 	def receive = {
 		case Commence =>
-			for(i <- 0 to (DefaultSimulation.numIndividuals-1))
+			for (i <- 0 to (DefaultSimulation.numIndividuals - 1))
 				individualRouter ! Work
 		case WorkDone =>
 			individualRouter ! Work

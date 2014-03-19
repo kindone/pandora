@@ -11,18 +11,18 @@ trait WorkerActor extends Actor {
 
 	def receive = {
 		case Work =>
-      work()
-      
-			if(work())
-    			sender ! WorkDone
-            else  {
-                val savedSender = sender
-                context.system.scheduler.scheduleOnce(1 second, savedSender, WorkDone) 
-            }
+			work()
+
+			if (work())
+				sender ! WorkDone
+			else {
+				val savedSender = sender
+				context.system.scheduler.scheduleOnce(1 second, savedSender, WorkDone)
+			}
 
 		case WorkDone =>
-      // unused
-        case _ =>
+		// unused
+		case _ =>
 			println("some undefined message")
 			sender ! -1
 	}
@@ -30,7 +30,7 @@ trait WorkerActor extends Actor {
 
 class RandomIndividual extends WorkerActor with StackMachine {
 	// initialize memory
-	for (i <- 0 until StackMachine.memSize) push(scala.util.Random.nextInt(operators.size*5).toDouble)
+	for (i <- 0 until StackMachine.memSize) push(scala.util.Random.nextInt(operators.size * 5).toDouble)
 
 }
 

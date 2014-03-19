@@ -17,7 +17,7 @@ object Main {
 		// start DefaultSimulator act()
 		val system = ActorSystem("pandora")
 		val simulation = system.actorOf(Props(new DefaultSimulation()), name = "simulation")
-		
+
 		simulation ! Commence
 
 	}
